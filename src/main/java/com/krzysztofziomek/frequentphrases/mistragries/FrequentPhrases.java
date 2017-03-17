@@ -10,56 +10,42 @@ import java.util.stream.Stream;
 
 /**
  * @author Krzysztof Ziomek
- * @since 15/03/2017.
+ * @since 16/03/2017.
+ *
+ * http://www.cs.dartmouth.edu/~ac/Teach/CS49-Fall11/Notes/lecnotes.pdf
+ *
+ * Fj - m/k <= Fij <= Fj
+ * Fj - number of element j in file
+ * Fij - counter after processing
+ * m - number of elements in file
+ * (k-1) number of frequent elements to be found
+ *
+ * Element is frequent when Fj > m/k
+ * Algorithm guarantee that those elements will stay in map after first iteration.
+ * But, map might contain elements with low frequency.
+ * We can eliminate those low frequency elements by passing through file second time to count occurences of elements in map
+ * and then filter those with counter <= m/k.
+ *
+ *
+ * This is what MistraGries algorithm guarantee. You will get frequent elements, and you will have all of them!
+ *
+ * References:
+ * http://cs.stackexchange.com/questions/7291/finding-the-element-that-occurs-the-most-in-a-very-large-file
+ * http://www.cs.dartmouth.edu/~ac/Teach/CS49-Fall11/Notes/lecnotes.pdf
+ * http://www.cs.rug.nl/~wim/pub/whh348.pdf
+ *
  * <p>
- * https://en.wikipedia.org/wiki/External_sorting
- * <p>
- * Assumptions
- * 1. File might be really huge i.e. 1TB
- * 1. Every phrase in file may be different -> In this case I can't go for sollution to keep HashMap of phrases with number of occurences because it would be size similar to file size (to big for memory)
- * <p>
- * O(nlogm)
- * n - number of elements in file
- * m - size of hashmap - 100000
- * <p>
- * Algorihm has its limitations. It is erroneous according to equation ...
- * <p>
- * 1. If we need sth more accurate than we would need to flush hashmap with occurences to file when it's full and build new one
- * After processing file we processFile our result hashmaps from files
- * <p>
- * String[] files = new String[no_of_files]
- * <p>
- * 2. Merge files occurences
- * for (int i=0: i<files.size; i++){
- * for(int j=i+1, j<file.size; j++{
- * merge(files[i], files[j] // rewrite j files to new file without elements which were accrued
- * }
- * valuesAmounts
- * <p>
- * 3. Find the k largest number in a running stream.
- * go through files again to get highest 100000 occurences with TreeMap (value, nrOfElementsWithThisValue)
- * if (valuesAmounts >= k+firstElementValue )  remove tree.firstElement
- * <p>
- * <p>
- * <p>
- * <p>
- * 4. go through files to get phrases of highest occurences
- * <p>
- * Read about heaps. Does it contain the same elements? You can implement such heap.
- * * Find the k largest number in a running stream.
- * http://qa.geeksforgeeks.org/78/find-the-k-largest-number-in-a-running-stream
- * <p>
- * for (file : files) {
- * <p>
- * }
+ * http://stackoverflow.com/questions/19621993/efficient-algorithm-to-find-most-common-phrases-in-a-large-volume-of-text
+ *
+ *
  */
 public class FrequentPhrases {
 
+    // TODO Refactoring
 
+    public MistraGriesMap processFile(String file, long k) throws IOException {
 
-    public MistraGriesMap processFile(String file, int k) throws IOException {
-
-        MistraGriesMap map = new MistraGriesMap(k-1);
+        MistraGriesMap map = new MistraGriesMap(k - 1);
 
         //build mistra map
         Stream<String> stream = Files.lines(Paths.get(file));
@@ -71,8 +57,23 @@ public class FrequentPhrases {
             }
         });
 
+        // set all values to 0
+        map.resetValues(0L);
+
         // pass again throug stream to count Fj for every element in map
+        final long[] m = {0};
+        Stream<String> stream2 = Files.lines(Paths.get(file));
+        stream2.forEach(line -> {
+            String[] elements = StringUtils.splitString(line, "|");
+            for (String elem : elements) {
+                m[0]++;
+                if (map.containsKey(elem)) {
+                    map.put(elem);
+                }
+            }
+        });
         // remove infrequent elements
+        map.removeInfrequentElements(m[0], k);
 
 
         return map;
@@ -93,14 +94,6 @@ public class FrequentPhrases {
                 map.put(elem);
             }
         });
-
-        /*
-        http://www.cs.dartmouth.edu/~ac/Teach/CS49-Fall11/Notes/lecnotes.pdf
-        Using this algorithm, we can now easily solve the FREQUENT problem in one additional pass. By the above
-        theorem, if some token j has fj > m=k, then its corresponding counter AŒj will be positive at the end of the MisraGries
-        pass over the stream, i.e., j will be in keys.A/. Thus, we can make a second pass over the input stream, counting
-        exactly the frequencies fj for all j 2 keys.A/, and then output the desired set of items.
-        */
 
     }
 
