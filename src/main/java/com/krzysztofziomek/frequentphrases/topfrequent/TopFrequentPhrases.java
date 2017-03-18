@@ -65,7 +65,7 @@ import java.util.*;
  */
 public class TopFrequentPhrases {
 
-    private static final String KEY_VALUE_SEPARATOR = "=";
+    public static final String KEY_VALUE_SEPARATOR = "=";
 
     /**
      * @param hugeInputFile            - huge file, which doesn't fit in memory i.e. 10GB or 1TB
@@ -74,7 +74,7 @@ public class TopFrequentPhrases {
      * @return map of top frequent phrases with their counters
      * @throws IOException
      */
-    public Map<String, Long> findTopFrequents(String hugeInputFile, int memoryCounterMapMaxSize, int topFrequentPhrasesNumber) throws IOException {
+    public Map<String, Long> findTopPhrases(String hugeInputFile, int memoryCounterMapMaxSize, int topFrequentPhrasesNumber) throws IOException {
 
 
         /* 0. Validate file is not empty */

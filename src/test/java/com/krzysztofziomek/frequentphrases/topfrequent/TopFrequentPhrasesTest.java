@@ -1,9 +1,12 @@
 package com.krzysztofziomek.frequentphrases.topfrequent;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 /**
@@ -19,7 +22,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         Assert.assertEquals(0, topPhrases.size());
 
@@ -32,7 +35,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         Assert.assertEquals(3, topPhrases.size());
         Assert.assertTrue(topPhrases.containsKey("A"));
@@ -50,7 +53,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         Assert.assertEquals(3, topPhrases.size());
         Assert.assertTrue(topPhrases.containsKey("A"));
@@ -69,7 +72,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(3, topPhrases.size());
@@ -89,7 +92,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(3, topPhrases.size());
@@ -109,7 +112,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(3, topPhrases.size());
@@ -122,7 +125,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 7;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(7, topPhrases.size());
@@ -135,7 +138,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(3, topPhrases.size());
@@ -155,7 +158,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(3, topPhrases.size());
@@ -175,7 +178,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(3, topPhrases.size());
@@ -195,7 +198,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(3, topPhrases.size());
@@ -215,7 +218,7 @@ public class TopFrequentPhrasesTest {
         int topFrequent = 3;
 
         TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
-        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
         Assert.assertEquals(2, topPhrases.size());
@@ -226,15 +229,74 @@ public class TopFrequentPhrasesTest {
     }
 
     @Test
-    public void shouldFindTopPhrasesIn10GBFile() throws IOException {
-        // Produce 10GBFile
+    public void compareResultsToInMemoryAlgorithm() throws IOException {
+        // Ranodomly Create files 50 x 100 and compare results
+
+        // file with 500 phrases
+        doTestRandomFile(50, 10, 10); //high frequency
+        doTestRandomFile(50, 10, 100); //medium frequency
+        doTestRandomFile(50, 10, 1000); //low frequency
+
+        // file with 5000 phrases
+        doTestRandomFile(50, 100, 10); //high frequency
+        doTestRandomFile(50, 100, 100); //medium frequency
+        doTestRandomFile(50, 100, 1000); //low frequency
+
+        // file with 50000 phrases
+        // uncommented because they are long running tests
+//        doTestRandomFile(50, 1000, 10); //high frequency
+//        doTestRandomFile(50, 1000, 100); //medium frequency
+//        doTestRandomFile(50, 1000, 1000); //low frequency
     }
 
     @Test
-    public void compareResultsToInMemoryAlgorithm() throws IOException {
-        // Ranodomly Create files 50 x 100 and compare results
+    @Ignore("Long running test.")
+    public void shouldGenerateProcessAndFindTopPhrasesIn10GBFile() throws IOException {
+        long startTime = System.currentTimeMillis();
+
+        Path hugeFile = HugeFileProducer.produceRandomFile(50, 1000 * 5 * 1000 * 10, 10000);
+        int mapSize = 100000;
+        int topFrequent = 100000;
+
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(hugeFile.toString(), mapSize, topFrequent);
+
+        // assert
+        System.out.println("TopPhrases size: " + topPhrases.size());
+
+        // clean up
+        Files.delete(hugeFile);
+
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("execution time in milis: " + elapsedTime);
     }
 
+
+    public void doTestRandomFile(int x, int y, int randomRange) throws IOException {
+        Path hugeFile = HugeFileProducer.produceRandomFile(x, y, randomRange);
+        int mapSize = 100;
+        int topFrequent = 3;
+
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(hugeFile.toString(), mapSize, topFrequent);
+
+
+        InMemoryAlgorithm inMemoryAlgorithm = new InMemoryAlgorithm();
+        Map<String, Long> topPhrasesByInMemoryAlgorithm = inMemoryAlgorithm.findTopPhrases(hugeFile);
+
+        System.out.println("IN MEMORY ALGORITHM RESULT");
+        System.out.println(topPhrasesByInMemoryAlgorithm);
+
+        // assert
+        Assert.assertEquals(topFrequent, topPhrases.size());
+        for (Map.Entry<String, Long> entry : topPhrases.entrySet()) {
+            Assert.assertEquals(topPhrasesByInMemoryAlgorithm.get(entry.getKey()), entry.getValue());
+        }
+
+        // clean up
+        Files.delete(hugeFile);
+    }
 
 
 }
