@@ -10,7 +10,7 @@ import java.util.Map;
  * @author Krzysztof Ziomek
  * @since 18/03/2017.
  */
-public class TopFrequentTest {
+public class TopFrequentPhrasesTest {
 
     @Test
     public void whenMapIsNotFlushedToTmpFiles() {
@@ -24,8 +24,8 @@ public class TopFrequentTest {
         int mapsize = 5;
         int topfrequent = 3;
 
-        TopFrequent topFrequent = new TopFrequent();
-        Map<String, Long> topPhrases = topFrequent.findTopFrequents(file, mapsize, topfrequent);
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapsize, topfrequent);
 
         // assert
         Assert.assertEquals(3, topPhrases.size());

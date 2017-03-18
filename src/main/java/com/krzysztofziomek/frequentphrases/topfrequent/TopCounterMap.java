@@ -43,6 +43,6 @@ public class TopCounterMap {
     }
 
     public int getSurplusValue(){
-        return valueSum -k ;
+        return valueSum - k ;
     }
 }
