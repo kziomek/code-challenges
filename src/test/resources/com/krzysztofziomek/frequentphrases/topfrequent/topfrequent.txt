@@ -1,0 +1,4 @@
+A|C|A|A|A
+A|A|A|A|A
+B|C|B|4|5
+B|7|8|B|C

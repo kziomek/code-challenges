@@ -38,6 +38,7 @@ import java.util.stream.Stream;
  * http://stackoverflow.com/questions/19621993/efficient-algorithm-to-find-most-common-phrases-in-a-large-volume-of-text
  *
  *
+ * TODO Add Apache licence and publish
  */
 public class FrequentPhrases {
 
