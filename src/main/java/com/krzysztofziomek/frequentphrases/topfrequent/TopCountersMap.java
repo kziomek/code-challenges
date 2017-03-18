@@ -38,7 +38,7 @@ public class TopCountersMap {
             assert numberOfCounters == maxNumberOfTopCounters;
 
         }
-        System.out.println("numberOfCounters " + numberOfCounters);
+        System.out.println("numberOfCounters: " + numberOfCounters);
         System.out.println(map);
     }
 

@@ -119,18 +119,17 @@ public class TopFrequentPhrases {
 
     }
 
-    private Map<String, Long> readTopPhrases(List<Path> files, Long minCounter, long surplusValue) throws IOException {
+    private Map<String, Long> readTopPhrases(List<Path> files, Long minCounter, long lowerCounterFreeSlots) throws IOException {
         Map<String, Long> topPhrases = new HashMap<>();
-        // todo test surplus
-        long[] surplas = {surplusValue};
+        long[] freeSlots = {lowerCounterFreeSlots};
         for (Path file : files) {
             Files.lines(file).forEach(line -> {
                 String[] entry = StringUtils.splitString(line, KEY_VALUE_SEPARATOR);
                 Long value = Long.valueOf(entry[1]);
                 if (value >= minCounter) {
-                    if (value.compareTo(minCounter) == 0 && surplas[0] >= 0) {
+                    if (value.compareTo(minCounter) == 0 && freeSlots[0] > 0) {
                         topPhrases.put(entry[0], value);
-                        surplas[0]--;
+                        freeSlots[0]--;
                     } else if (value > minCounter) {
                         topPhrases.put(entry[0], value);
                     }
