@@ -208,6 +208,33 @@ public class TopFrequentPhrasesTest {
 
     }
 
+    @Test
+    public void shouldFind2TopPhrasesWhenAsked3TopPhrasesButFileContains2DiffrentPhrases() throws IOException {
+        String file = "src/test/resources/com/krzysztofziomek/frequentphrases/topfrequent/topfrequencesA10B11.txt";
+        int mapSize = 5;
+        int topFrequent = 3;
+
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+
+        // assert
+        Assert.assertEquals(2, topPhrases.size());
+        Assert.assertTrue(topPhrases.containsKey("A"));
+        Assert.assertEquals(Long.valueOf(10), topPhrases.get("A"));
+        Assert.assertTrue(topPhrases.containsKey("B"));
+        Assert.assertEquals(Long.valueOf(11), topPhrases.get("B"));
+    }
+
+    @Test
+    public void shouldFindTopPhrasesIn10GBFile() throws IOException {
+        // Produce 10GBFile
+    }
+
+    @Test
+    public void compareResultsToInMemoryAlgorithm() throws IOException {
+        // Ranodomly Create files 50 x 100 and compare results
+    }
+
 
 
 }
