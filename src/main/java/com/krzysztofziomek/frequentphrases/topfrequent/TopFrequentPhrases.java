@@ -97,15 +97,15 @@ public class TopFrequentPhrases {
         /* 3. BuildTopCounterMap
          *  In this phase we will calculate minimum counter threshold to consider phrase as top frequent
          */
-        TopCounterMap topCounterMap = buildTopCounterMap(tmpFiles, topFrequentPhrasesNumber);
-        Long minCounter = topCounterMap.getLowestCounter();
-        int surplusValue = topCounterMap.getSurplusValue(); // todo test surplus
+        TopCountersMap topCountersMap = buildTopCounterMap(tmpFiles, topFrequentPhrasesNumber);
+        Long minCounter = topCountersMap.getLowestCounter();
+        long lowerCounterFreeSlots = topCountersMap.getLowestCounterFreeSlots(); // todo test surplus
 
         /* 4  go through files to pick top phrases, counter >= minCounter
          * If there is more than one phrase with counter == minCounter. We take first phrases in stream so we return no more than topFrequentPhrasesNumber in return map
          * surplusValue is to be watch if we can take more phrases with counter == minCounter
          */
-        Map<String, Long> topPhrases = readTopPhrases(tmpFiles, minCounter, surplusValue);
+        Map<String, Long> topPhrases = readTopPhrases(tmpFiles, minCounter, lowerCounterFreeSlots);
 
         //Print top phrases
         System.out.println("**** TOP PHRASES ****");
@@ -119,10 +119,10 @@ public class TopFrequentPhrases {
 
     }
 
-    private Map<String, Long> readTopPhrases(List<Path> files, Long minCounter, int surplusValue) throws IOException {
+    private Map<String, Long> readTopPhrases(List<Path> files, Long minCounter, long surplusValue) throws IOException {
         Map<String, Long> topPhrases = new HashMap<>();
         // todo test surplus
-        int[] surplas = {surplusValue};
+        long[] surplas = {surplusValue};
         for (Path file : files) {
             Files.lines(file).forEach(line -> {
                 String[] entry = StringUtils.splitString(line, KEY_VALUE_SEPARATOR);
@@ -142,17 +142,17 @@ public class TopFrequentPhrases {
 
     }
 
-    public TopCounterMap buildTopCounterMap(List<Path> files, int topFrequent) throws IOException {
+    public TopCountersMap buildTopCounterMap(List<Path> files, int topFrequent) throws IOException {
 
-        TopCounterMap topCounterMap = new TopCounterMap(topFrequent);
+        TopCountersMap topCountersMap = new TopCountersMap(topFrequent);
 
         for (Path file : files) {
             Files.lines(file).forEach(line -> {
                 String[] entry = StringUtils.splitString(line, KEY_VALUE_SEPARATOR);
-                topCounterMap.add(Long.valueOf(entry[1]));
+                topCountersMap.add(Long.valueOf(entry[1]));
             });
         }
-        return topCounterMap;
+        return topCountersMap;
 
     }
 
