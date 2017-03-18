@@ -1,0 +1,6 @@
+A|B|C|C|E
+A|B|C|D|E
+A|B|C|5|E
+A|B|C|D|E
+A|B|C|E|8
+1|2|3|4|A|6|7|E|9

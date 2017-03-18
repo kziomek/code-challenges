@@ -13,6 +13,19 @@ import java.util.Map;
 public class TopFrequentPhrasesTest {
 
     @Test
+    public void shouldReturnEmptyMapWhenProvidedFileIsEmpty() throws IOException {
+        String file = "src/test/resources/com/krzysztofziomek/frequentphrases/topfrequent/empty.txt";
+        int mapSize = 5;
+        int topFrequent = 3;
+
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+
+        Assert.assertEquals(0, topPhrases.size());
+
+    }
+
+    @Test
     public void shouldPickA2D2C1WhenHugeFileFitsInDefinedMapSize() throws IOException {
         String file = "src/test/resources/com/krzysztofziomek/frequentphrases/topfrequent/topfrequentA2D2C1.txt";
         int mapSize = 5;
@@ -114,5 +127,87 @@ public class TopFrequentPhrasesTest {
         // assert
         Assert.assertEquals(7, topPhrases.size());
     }
+
+    @Test
+    public void shouldFindA6C6E6WhenTheyAreScatteredThroughout5TmpFilesDuringProcessing() throws IOException {
+        String file = "src/test/resources/com/krzysztofziomek/frequentphrases/topfrequent/topfrequentPhrasesScattered.txt";
+        int mapSize = 5;
+        int topFrequent = 3;
+
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+
+        // assert
+        Assert.assertEquals(3, topPhrases.size());
+        Assert.assertTrue(topPhrases.containsKey("A"));
+        Assert.assertEquals(Long.valueOf(6), topPhrases.get("A"));
+        Assert.assertTrue(topPhrases.containsKey("C"));
+        Assert.assertEquals(Long.valueOf(6), topPhrases.get("C"));
+        Assert.assertTrue(topPhrases.containsKey("E"));
+        Assert.assertEquals(Long.valueOf(6), topPhrases.get("E"));
+
+    }
+
+    @Test
+    public void shouldFindTopPhrasesWhenTrimmedMultiWordPhrases() throws IOException {
+        String file = "src/test/resources/com/krzysztofziomek/frequentphrases/topfrequent/topfrequentTrimmedMultiWordPhrases.txt";
+        int mapSize = 5;
+        int topFrequent = 3;
+
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+
+        // assert
+        Assert.assertEquals(3, topPhrases.size());
+        Assert.assertTrue(topPhrases.containsKey("Foobar Candy"));
+        Assert.assertEquals(Long.valueOf(2), topPhrases.get("Foobar Candy"));
+        Assert.assertTrue(topPhrases.containsKey("CNET"));
+        Assert.assertEquals(Long.valueOf(3), topPhrases.get("CNET"));
+        Assert.assertTrue(topPhrases.containsKey("PGA"));
+        Assert.assertEquals(Long.valueOf(2), topPhrases.get("PGA"));
+
+    }
+
+    @Test
+    public void shouldFindTopPhrasesWhenPhrasesAreLongerThanSingleWordAndUntrimmed() throws IOException {
+        String file = "src/test/resources/com/krzysztofziomek/frequentphrases/topfrequent/topfrequentUntrimmedMultiWordPhrases.txt";
+        int mapSize = 5;
+        int topFrequent = 3;
+
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+
+        // assert
+        Assert.assertEquals(3, topPhrases.size());
+        Assert.assertTrue(topPhrases.containsKey("Foobar Candy"));
+        Assert.assertEquals(Long.valueOf(2), topPhrases.get("Foobar Candy"));
+        Assert.assertTrue(topPhrases.containsKey("CNET"));
+        Assert.assertEquals(Long.valueOf(3), topPhrases.get("CNET"));
+        Assert.assertTrue(topPhrases.containsKey("PGA"));
+        Assert.assertEquals(Long.valueOf(2), topPhrases.get("PGA"));
+
+    }
+
+    @Test
+    public void shouldFindTopPhrasesInFileWithEmptyElementsBetweenPipes() throws IOException {
+        String file = "src/test/resources/com/krzysztofziomek/frequentphrases/topfrequent/topfrequencesEmptyElementsBetweenPipes.txt";
+        int mapSize = 5;
+        int topFrequent = 3;
+
+        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        Map<String, Long> topPhrases = topFrequentPhrases.findTopFrequents(file, mapSize, topFrequent);
+
+        // assert
+        Assert.assertEquals(3, topPhrases.size());
+        Assert.assertTrue(topPhrases.containsKey("C"));
+        Assert.assertEquals(Long.valueOf(3), topPhrases.get("C"));
+        Assert.assertTrue(topPhrases.containsKey("E"));
+        Assert.assertEquals(Long.valueOf(2), topPhrases.get("E"));
+        Assert.assertTrue(topPhrases.containsKey("A"));
+        Assert.assertEquals(Long.valueOf(2), topPhrases.get("A"));
+
+    }
+
+
 
 }

@@ -76,6 +76,12 @@ public class TopFrequentPhrases {
      */
     public Map<String, Long> findTopFrequents(String hugeInputFile, int memoryCounterMapMaxSize, int topFrequentPhrasesNumber) throws IOException {
 
+
+        /* 0. Validate file is not empty */
+        if (Files.size(Paths.get(hugeInputFile)) == 0 ){
+            return new HashMap<>();
+        }
+
         /* 1. First iteration.
          *    Go through file and count frequencies in map. When map is full flush it to tmp file and continue counting.
          */
@@ -99,7 +105,7 @@ public class TopFrequentPhrases {
          */
         TopCountersMap topCountersMap = buildTopCounterMap(tmpFiles, topFrequentPhrasesNumber);
         Long minCounter = topCountersMap.getLowestCounter();
-        long lowerCounterFreeSlots = topCountersMap.getLowestCounterFreeSlots(); // todo test surplus
+        long lowerCounterFreeSlots = topCountersMap.getLowestCounterFreeSlots();
 
         /* 4  go through files to pick top phrases, counter >= minCounter
          * If there is more than one phrase with counter == minCounter. We take first phrases in stream so we return no more than topFrequentPhrasesNumber in return map
@@ -224,7 +230,7 @@ public class TopFrequentPhrases {
                             flushMapToFile(memoryCounterMap)
                     );
                 }
-                putElementInMap(memoryCounterMap, phrase);
+                putElementInMap(memoryCounterMap, StringUtils.trimWhitespace(phrase));
             }
         });
 
