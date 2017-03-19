@@ -14,13 +14,13 @@ import static org.junit.Assert.assertTrue;
  * @author Krzysztof Ziomek
  * @since 19/03/2017.
  */
-public class KComplementaryTest {
+public class ComplementaryPairsTest {
 
-    KComplementary kComplementary;
+    ComplementaryPairs complementaryPairs;
 
     @Before
     public void setUp() {
-        kComplementary = new KComplementary();
+        complementaryPairs = new ComplementaryPairs();
     }
 
     @Test
@@ -30,7 +30,7 @@ public class KComplementaryTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = kComplementary.process(A, k);
+        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
         Assert.assertEquals(0, resultSet.size());
@@ -43,7 +43,7 @@ public class KComplementaryTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = kComplementary.process(A, k);
+        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
         Assert.assertEquals(0, resultSet.size());
@@ -59,7 +59,7 @@ public class KComplementaryTest {
         Integer k = 4;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = kComplementary.process(A, k);
+        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
         assertTrue(resultSet.contains(new Pair<>(0, 0)));
@@ -75,7 +75,7 @@ public class KComplementaryTest {
         Integer k = 4;
 
         // execute
-        Set<Pair<Integer, Integer>> result = kComplementary.process(A, k);
+        Set<Pair<Integer, Integer>> result = complementaryPairs.process(A, k);
 
         // assert
         assertEquals(0, result.size());
@@ -88,7 +88,7 @@ public class KComplementaryTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = kComplementary.process(A, k);
+        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
         assertTrue(resultSet.contains(new Pair<>(0, 3)));
@@ -106,7 +106,7 @@ public class KComplementaryTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = kComplementary.process(A, k);
+        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
         assertTrue(resultSet.contains(new Pair<>(0, 2)));
@@ -123,7 +123,7 @@ public class KComplementaryTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = kComplementary.process(A, k);
+        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
         assertTrue(resultSet.contains(new Pair<>(0, 2)));
@@ -142,7 +142,7 @@ public class KComplementaryTest {
         Integer k = 2;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = kComplementary.process(A, k);
+        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         System.out.println(resultSet);
         // assert
