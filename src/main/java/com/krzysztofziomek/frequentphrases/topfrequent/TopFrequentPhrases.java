@@ -19,49 +19,34 @@ import java.util.*;
  * Given a large file that does not fit in memory (say 10GB), find the top 100000 most frequent phrases. The file has 50 phrases per line separated by a pipe (|). Assume that the phrases do not contain pipe.
  * Example line may look like: Foobar Candy | Olympics 2012 | PGA | CNET | Microsoft Bing ....
  * The above line has 5 phrases in visible region.
- * <p>
- * <p>
- * <p>
- * <p>
- * https://en.wikipedia.org/wiki/External_sorting
- * <p>
+ *
  * Assumptions
  * 1. File might be really huge i.e. 1TB
- * 1. Every phrase in file may be different -> In this case I can't go for sollution to keep HashMap of phrases with number of occurences because it would be size similar to file size (to big for memory)
- * <p>
- * O(nlogm)
- * m - number of elements in file
- * k - size of hashmap - 100000
- * <p>
- * <p>
- * 1. If we need sth more accurate than we would need to flush hashmap with occurences to file when it's full and build new one
- * After processing file we processFile our result hashmaps from files
- * <p>
- * String[] files = new String[no_of_files]
- * <p>
- * 2. Merge files occurences
- * for (int i=0: i<files.size; i++){
- * for(int j=i+1, j<file.size; j++{
- * merge(files[i], files[j] // rewrite j files to new file without elements which were accrued
- * }
- * valuesAmounts
- * <p>
- * 3. Find the k largest number in a running stream.
- * go through files again to get highest 100000 occurences with TreeMap (value, nrOfElementsWithThisValue)
- * if (valuesAmounts >= k+firstElementValue )  remove tree.firstElement
- * <p>
- * <p>
- * <p>
- * <p>
- * 4. go through files to get phrases of highest occurences
- * <p>
- * Read about heaps. Does it contain the same elements? You can implement such heap.
- * * Find the k largest number in a running stream.
- * http://qa.geeksforgeeks.org/78/find-the-k-largest-number-in-a-running-stream
- * <p>
- * <p>
- * Further improvements:
- * Trim phrase between pipes
+ * 2. Every phrase in file may be different -> In this case I can't go for solution to keep HashMap of phrases with number of occurrences because it would be size similar to file size (to big for memory)
+ *
+ *
+ * Algorithm description
+ * 1. First iteration.
+ *    Go through file and count element frequencies in map. When map is full flush it to tmp file and continue counting with empty map.
+ *    Repeat until whole huge file is processes.
+ *
+ * 2. Merge counters stored in files
+ *    At this stage we have fragmentary counters spattered through tmp files.
+ *    It means the same phrase might be stored in many files but sum of counters is equal to frequency in huge file.
+ *    Let's merge phrases' counters.
+ *    After this phase we will have only one occurence of phrase throughout all files with sum of previous counters.
+ *
+ *    In this stage we should have unique phrases in throughout all fragmentary files.
+ *
+ * 3. BuildTopCounterMap
+ *    In this phase we will calculate minimum counter threshold to consider phrase as top frequent
+ *
+ * 4. Go through tmp files to pick top phrases, counter >= minCounter
+ *    If there is more than one phrase with counter == minCounter,
+ *    we take first phrases in stream so we return no more than lowerCounterFreeSlots which is calculated in TopCounterMap
+ *
+ * 5. Clean up tmp files
+ *
  */
 public class TopFrequentPhrases {
 
@@ -83,7 +68,7 @@ public class TopFrequentPhrases {
         }
 
         /* 1. First iteration.
-         *    Go through file and count frequencies in map. When map is full flush it to tmp file and continue counting.
+         * Go through file and count frequencies in map. When map is full flush it to tmp file and continue counting.
          */
 
         List<Path> tmpFiles = countFragmentaryFrequencies(hugeInputFile, memoryCounterMapMaxSize);
@@ -107,9 +92,9 @@ public class TopFrequentPhrases {
         Long minCounter = topCountersMap.getLowestCounter();
         long lowerCounterFreeSlots = topCountersMap.getLowestCounterFreeSlots();
 
-        /* 4  go through files to pick top phrases, counter >= minCounter
-         * If there is more than one phrase with counter == minCounter. We take first phrases in stream so we return no more than topFrequentPhrasesNumber in return map
-         * surplusValue is to be watch if we can take more phrases with counter == minCounter
+        /* 4. Go through tmp files to pick top phrases, counter >= minCounter
+         *    If there is more than one phrase with counter == minCounter,
+         *    we take first phrases in stream so we return no more than lowerCounterFreeSlots which is calculated in TopCounterMap
          */
         Map<String, Long> topPhrases = readTopPhrases(tmpFiles, minCounter, lowerCounterFreeSlots);
 
@@ -118,7 +103,7 @@ public class TopFrequentPhrases {
         System.out.println(topPhrases);
 
 
-        // Clean up tmp files
+        // 5. Clean up tmp files
         deleteTmpFiles(tmpFiles);
 
         return topPhrases;
@@ -162,6 +147,17 @@ public class TopFrequentPhrases {
     }
 
 
+    /*
+     *  Complexity of mergeCounters method is O(n^2).
+     *  However n is not number of elements in huge file but number of tmp files.
+     *
+     *  Performance of algorithm depends on number of tmp files.
+     *  Seeking for better complexity:
+     *  First I would try approach with sorted elements in tmp files. It should give O(nlogn).
+     *  But notice, that even if complexity would be O(nlogn) it doesn't mean it will be faster for relatively small number of elements like in 10GB file.
+     *  Execution time benchmark is must.
+     *  Moreover I would consider algorithm for multithreading processing.
+     */
     private void mergeCounters(List<Path> tmpFiles) throws IOException {
         for (int i = 0; i < tmpFiles.size(); i++) {
             for (int j = i + 1; j < tmpFiles.size(); j++) {
@@ -211,7 +207,7 @@ public class TopFrequentPhrases {
 
     /**
      * This method will produce fragmentary files witch contain Map<String,Long> where String is phrase and Long is counter of occurences before map was flushed to file.
-     * O(n log memoryCounterMapMaxSize ) ~ O(n)
+     * Complexity: O(n)
      *
      * @param hugeInputFile
      * @param memoryCounterMapMaxSize
