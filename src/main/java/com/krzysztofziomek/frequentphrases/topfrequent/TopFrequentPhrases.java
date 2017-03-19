@@ -61,40 +61,46 @@ public class TopFrequentPhrases {
      */
     public Map<String, Long> findTopPhrases(String hugeInputFile, int memoryCounterMapMaxSize, int topFrequentPhrasesNumber) throws IOException {
 
+        List<Path> tmpFiles = new ArrayList<>();
+        Map<String, Long> topPhrases = new HashMap<>();
 
-        /* 0. Validate file is not empty */
-        if (Files.size(Paths.get(hugeInputFile)) == 0) {
-            return new HashMap<>();
+        try {
+            /* 0. Validate file is not empty */
+            if (Files.size(Paths.get(hugeInputFile)) == 0) {
+                return new HashMap<>();
+            }
+
+            /* 1. First iteration. Count fragmentary frequencies. */
+            tmpFiles = countFragmentaryFrequencies(hugeInputFile, memoryCounterMapMaxSize);
+            if (IS_DEBUG_MODE) {
+                System.out.println(tmpFiles);
+            }
+
+            /* 2. Merge counters stored in files */
+            mergeCounters(tmpFiles);
+
+            /* In this stage we should have unique phrases in throughout all fragmentary files. */
+
+            /* 3. BuildTopCounterMap */
+            TopCountersMap topCountersMap = buildTopCounterMap(tmpFiles, topFrequentPhrasesNumber);
+            Long minCounter = topCountersMap.getLowestCounter();
+            long lowerCounterFreeSlots = topCountersMap.getLowestCounterFreeSlots();
+
+            /* 4. Go through tmp files to pick top phrases */
+            topPhrases = readTopPhrases(tmpFiles, minCounter, lowerCounterFreeSlots);
+
+            if (IS_DEBUG_MODE) {
+                System.out.println("**** TOP PHRASES ****");
+                System.out.println(topPhrases);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            /* 5. Clean up tmp files */
+            deleteTmpFiles(tmpFiles);
         }
 
-        /* 1. First iteration. Count fragmentary frequencies. */
-        List<Path> tmpFiles = countFragmentaryFrequencies(hugeInputFile, memoryCounterMapMaxSize);
-        if (IS_DEBUG_MODE) {
-            System.out.println(tmpFiles);
-        }
-
-        /* 2. Merge counters stored in files */
-        mergeCounters(tmpFiles);
-
-        /* In this stage we should have unique phrases in throughout all fragmentary files. */
-
-        /* 3. BuildTopCounterMap */
-        TopCountersMap topCountersMap = buildTopCounterMap(tmpFiles, topFrequentPhrasesNumber);
-        Long minCounter = topCountersMap.getLowestCounter();
-        long lowerCounterFreeSlots = topCountersMap.getLowestCounterFreeSlots();
-
-        /* 4. Go through tmp files to pick top phrases */
-        Map<String, Long> topPhrases = readTopPhrases(tmpFiles, minCounter, lowerCounterFreeSlots);
-
-        //Print top phrases
-        if (IS_DEBUG_MODE) {
-            System.out.println("**** TOP PHRASES ****");
-            System.out.println(topPhrases);
-        }
-
-
-        // 5. Clean up tmp files
-        deleteTmpFiles(tmpFiles);
 
         return topPhrases;
 
@@ -273,9 +279,7 @@ public class TopFrequentPhrases {
             writer.close();
             return tempFile;
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException("Filed to save into tmp file.", e);
-
         }
     }
 
