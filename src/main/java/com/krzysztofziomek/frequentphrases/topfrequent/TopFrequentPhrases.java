@@ -23,7 +23,7 @@ import java.util.*;
  * Assumptions
  * 1. File might be really huge i.e. 1TB
  * 2. Every phrase in file may be different -> In this case I can't go for solution to keep HashMap of phrases with number of occurrences because it would be size similar to file size (to big for memory)
- *
+ * 3. Phrases are not words so it is not limited set of phrases which fits in memory.
  *
  * Algorithm description
  * 1. First iteration.
