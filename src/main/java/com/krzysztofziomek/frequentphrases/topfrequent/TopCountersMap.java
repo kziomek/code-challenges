@@ -20,7 +20,6 @@ public class TopCountersMap {
     }
 
     public void add(Long counter) {
-        System.out.println("add counter: "+counter);
         if (map.containsKey(counter)) {
             map.put(counter, map.get(counter) + 1);
             numberOfCounters++;
@@ -31,13 +30,9 @@ public class TopCountersMap {
 
         if (numberOfCounters >= maxNumberOfTopCounters + map.firstEntry().getValue()) {
             Map.Entry<Long, Long> entry = map.pollFirstEntry();
-            System.out.println("delete " + entry.getKey());
             numberOfCounters -= entry.getValue();
         }
 
-        System.out.println(map);
-        System.out.println("numberOfCounters: " + numberOfCounters);
-        System.out.println();
     }
 
     public Long getLowestCounter() {

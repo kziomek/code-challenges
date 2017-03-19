@@ -19,38 +19,38 @@ import java.util.*;
  * Given a large file that does not fit in memory (say 10GB), find the top 100000 most frequent phrases. The file has 50 phrases per line separated by a pipe (|). Assume that the phrases do not contain pipe.
  * Example line may look like: Foobar Candy | Olympics 2012 | PGA | CNET | Microsoft Bing ....
  * The above line has 5 phrases in visible region.
- *
+ * <p>
  * Assumptions
  * 1. File might be really huge i.e. 1TB
  * 2. Every phrase in file may be different -> In this case I can't go for solution to keep HashMap of phrases with number of occurrences because it would be size similar to file size (to big for memory)
  * 3. Phrases are not words so it is not limited set of phrases which fits in memory.
- *
+ * <p>
  * Algorithm description
  * 1. First iteration. Count fragmentary frequencies.
- *    Go through file and count element frequencies. Counters store in map, where key is phrase and value is number of occurences.
- *    When map is full flush it to tmp file and continue counting with empty map.
- *    Repeat reading and flushing until whole huge file is processes.
- *
+ * Go through file and count element frequencies. Counters store in map, where key is phrase and value is number of occurences.
+ * When map is full flush it to tmp file and continue counting with empty map.
+ * Repeat reading and flushing until whole huge file is processes.
+ * <p>
  * 2. Merge counters stored in files
- *    At this stage we have fragmentary counters spattered through tmp files.
- *    In this stage the same phrase might be stored in more than one file but sum of counters is equal to frequency in huge file.
- *    Let's merge phrases' counters.
- *    After this phase we will have only one occurrence of phrase throughout all files with sum of partial counters.
- *    In this stage we should have unique phrases throughout all fragmentary files.
- *
+ * At this stage we have fragmentary counters spattered through tmp files.
+ * In this stage the same phrase might be stored in more than one file but sum of counters is equal to frequency in huge file.
+ * Let's merge phrases' counters.
+ * After this phase we will have only one occurrence of phrase throughout all files with sum of partial counters.
+ * In this stage we should have unique phrases throughout all fragmentary files.
+ * <p>
  * 3. BuildTopCounterMap
- *    In this phase we will calculate lowestCounter threshold which we use next to pick top frequent phrases
- *
+ * In this phase we will calculate lowestCounter threshold which we use next to pick top frequent phrases
+ * <p>
  * 4. Go through tmp files to pick top phrases, counter >= lowestCounter
- *    If there is more than one phrase with counter == lowestCounter,
- *    we take first phrases in stream so we return no more than lowerCounterFreeSlots which was calculated in TopCounterMap.
- *
+ * If there is more than one phrase with counter == lowestCounter,
+ * we take first phrases in stream so we return no more than lowerCounterFreeSlots which was calculated in TopCounterMap.
+ * <p>
  * 5. Clean up tmp files
- *
  */
 public class TopFrequentPhrases {
 
     public static final String KEY_VALUE_SEPARATOR = "=";
+    private static final boolean IS_DEBUG_MODE = false;
 
     /**
      * @param hugeInputFile            - huge file, which doesn't fit in memory i.e. 10GB or 1TB
@@ -63,13 +63,15 @@ public class TopFrequentPhrases {
 
 
         /* 0. Validate file is not empty */
-        if (Files.size(Paths.get(hugeInputFile)) == 0 ){
+        if (Files.size(Paths.get(hugeInputFile)) == 0) {
             return new HashMap<>();
         }
 
         /* 1. First iteration. Count fragmentary frequencies. */
         List<Path> tmpFiles = countFragmentaryFrequencies(hugeInputFile, memoryCounterMapMaxSize);
-        System.out.println(tmpFiles);
+        if (IS_DEBUG_MODE) {
+            System.out.println(tmpFiles);
+        }
 
         /* 2. Merge counters stored in files */
         mergeCounters(tmpFiles);
@@ -85,8 +87,10 @@ public class TopFrequentPhrases {
         Map<String, Long> topPhrases = readTopPhrases(tmpFiles, minCounter, lowerCounterFreeSlots);
 
         //Print top phrases
-        System.out.println("**** TOP PHRASES ****");
-        System.out.println(topPhrases);
+        if (IS_DEBUG_MODE) {
+            System.out.println("**** TOP PHRASES ****");
+            System.out.println(topPhrases);
+        }
 
 
         // 5. Clean up tmp files
@@ -150,13 +154,15 @@ public class TopFrequentPhrases {
                 Path iFile = tmpFiles.get(i);
                 Path jFile = tmpFiles.get(j);
 
-                System.out.println("mergeCounters i=" + i + " j=" + j);
 
                 Map<String, Long> imap = loadMapFromTmpFile(iFile);
                 Map<String, Long> jmap = loadMapFromTmpFile(jFile);
 
-                System.out.println(imap);
-                System.out.println(jmap);
+                if (IS_DEBUG_MODE) {
+                    System.out.println("mergeCounters i=" + i + " j=" + j);
+                    System.out.println(imap);
+                    System.out.println(jmap);
+                }
 
                 mergeMaps(imap, jmap);
 
@@ -172,6 +178,7 @@ public class TopFrequentPhrases {
 
     /**
      * When both maps contain the same phrase then we sum counters, assign value to phrase in imap and remove phrase from jmap
+     *
      * @param imap
      * @param jmap
      */
@@ -191,7 +198,9 @@ public class TopFrequentPhrases {
     private void deleteTmpFiles(List<Path> tmpFiles) throws IOException {
         for (Path tmpFile : tmpFiles) {
             Files.deleteIfExists(tmpFile);
-            System.out.println("Delete tmp file: " + tmpFile);
+            if (IS_DEBUG_MODE) {
+                System.out.println("Delete tmp file: " + tmpFile);
+            }
         }
     }
 
@@ -249,8 +258,10 @@ public class TopFrequentPhrases {
 
 
     private Path saveMapToTmpFile(Map<String, Long> map) {
-        System.out.println("flush to file");
-        System.out.println(map);
+        if (IS_DEBUG_MODE) {
+            System.out.println("flush to file");
+            System.out.println(map);
+        }
 
         try {
             Path tempFile = Files.createTempFile("TopFrequentPhrases", "");
@@ -269,7 +280,9 @@ public class TopFrequentPhrases {
     }
 
     private Map<String, Long> loadMapFromTmpFile(Path path) throws IOException {
-        System.out.println("Read file to map: " + path);
+        if (IS_DEBUG_MODE) {
+            System.out.println("Read file to map: " + path);
+        }
         Map<String, Long> map = new HashMap<>();
         BufferedReader bufferedReader = Files.newBufferedReader(path);
         bufferedReader.lines().forEach(line -> {
