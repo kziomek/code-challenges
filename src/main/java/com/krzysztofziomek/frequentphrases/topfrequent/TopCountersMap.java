@@ -6,13 +6,11 @@ import java.util.TreeMap;
 /**
  * @author Krzysztof Ziomek
  * @since 18/03/2017.
- * <p>
- * k - number of top counters to be stored in map
  */
 public class TopCountersMap {
 
     private TreeMap<Long, Long> map;
-    private int maxNumberOfTopCounters; //i.e. 100000
+    private int maxNumberOfTopCounters;
     private int numberOfCounters;
 
     public TopCountersMap(int maxNumberOfTopCounters) {
