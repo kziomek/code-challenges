@@ -26,24 +26,24 @@ import java.util.*;
  * 3. Phrases are not words so it is not limited set of phrases which fits in memory.
  *
  * Algorithm description
- * 1. First iteration.
- *    Go through file and count element frequencies in map. When map is full flush it to tmp file and continue counting with empty map.
- *    Repeat until whole huge file is processes.
+ * 1. First iteration. Count fragmentary frequencies.
+ *    Go through file and count element frequencies. Counters store in map, where key is phrase and value is number of occurences.
+ *    When map is full flush it to tmp file and continue counting with empty map.
+ *    Repeat reading and flushing until whole huge file is processes.
  *
  * 2. Merge counters stored in files
  *    At this stage we have fragmentary counters spattered through tmp files.
- *    It means the same phrase might be stored in many files but sum of counters is equal to frequency in huge file.
+ *    In this stage the same phrase might be stored in more than one file but sum of counters is equal to frequency in huge file.
  *    Let's merge phrases' counters.
- *    After this phase we will have only one occurence of phrase throughout all files with sum of previous counters.
- *
- *    In this stage we should have unique phrases in throughout all fragmentary files.
+ *    After this phase we will have only one occurrence of phrase throughout all files with sum of partial counters.
+ *    In this stage we should have unique phrases throughout all fragmentary files.
  *
  * 3. BuildTopCounterMap
- *    In this phase we will calculate minimum counter threshold to consider phrase as top frequent
+ *    In this phase we will calculate lowestCounter threshold which we use next to pick top frequent phrases
  *
- * 4. Go through tmp files to pick top phrases, counter >= minCounter
- *    If there is more than one phrase with counter == minCounter,
- *    we take first phrases in stream so we return no more than lowerCounterFreeSlots which is calculated in TopCounterMap
+ * 4. Go through tmp files to pick top phrases, counter >= lowestCounter
+ *    If there is more than one phrase with counter == lowestCounter,
+ *    we take first phrases in stream so we return no more than lowerCounterFreeSlots which was calculated in TopCounterMap.
  *
  * 5. Clean up tmp files
  *
@@ -67,35 +67,21 @@ public class TopFrequentPhrases {
             return new HashMap<>();
         }
 
-        /* 1. First iteration.
-         * Go through file and count frequencies in map. When map is full flush it to tmp file and continue counting.
-         */
-
+        /* 1. First iteration. Count fragmentary frequencies. */
         List<Path> tmpFiles = countFragmentaryFrequencies(hugeInputFile, memoryCounterMapMaxSize);
         System.out.println(tmpFiles);
 
-        /* 2. Merge counters stored in files occurences
-             At this stage we have fragmentary counters spattered through tmp files.
-             It means the same phrase might be stored in many files but sum of counters is equal to frequency in huge file.
-             Let's merge phrases' counters.
-             After this phase we will have only one occurence of phrase throughout all files with sum of previous counters.
-         */
-
+        /* 2. Merge counters stored in files */
         mergeCounters(tmpFiles);
 
         /* In this stage we should have unique phrases in throughout all fragmentary files. */
 
-        /* 3. BuildTopCounterMap
-         *  In this phase we will calculate minimum counter threshold to consider phrase as top frequent
-         */
+        /* 3. BuildTopCounterMap */
         TopCountersMap topCountersMap = buildTopCounterMap(tmpFiles, topFrequentPhrasesNumber);
         Long minCounter = topCountersMap.getLowestCounter();
         long lowerCounterFreeSlots = topCountersMap.getLowestCounterFreeSlots();
 
-        /* 4. Go through tmp files to pick top phrases, counter >= minCounter
-         *    If there is more than one phrase with counter == minCounter,
-         *    we take first phrases in stream so we return no more than lowerCounterFreeSlots which is calculated in TopCounterMap
-         */
+        /* 4. Go through tmp files to pick top phrases */
         Map<String, Long> topPhrases = readTopPhrases(tmpFiles, minCounter, lowerCounterFreeSlots);
 
         //Print top phrases
@@ -184,6 +170,11 @@ public class TopFrequentPhrases {
 
     }
 
+    /**
+     * When both maps contain the same phrase then we sum counters, assign value to phrase in imap and remove phrase from jmap
+     * @param imap
+     * @param jmap
+     */
     protected void mergeMaps(Map<String, Long> imap, Map<String, Long> jmap) {
         Iterator<Map.Entry<String, Long>> jIterator = jmap.entrySet().iterator();
         while (jIterator.hasNext()) {
