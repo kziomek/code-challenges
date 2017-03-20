@@ -13,7 +13,7 @@ import java.util.Map;
  * @author Krzysztof Ziomek
  * @since 18/03/2017.
  */
-public class TopFrequentPhrasesTest {
+public class TopPhrasesTest {
 
     @Test
     public void shouldReturnEmptyMapWhenProvidedFileIsEmpty() throws IOException {
@@ -21,7 +21,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         Assert.assertEquals(0, topPhrases.size());
@@ -34,7 +34,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         Assert.assertEquals(3, topPhrases.size());
@@ -52,7 +52,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 2;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         Assert.assertEquals(3, topPhrases.size());
@@ -71,7 +71,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -91,7 +91,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -111,7 +111,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -124,7 +124,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 7;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -137,7 +137,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -157,7 +157,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -177,7 +177,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -197,7 +197,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -217,7 +217,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 5;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(file, mapSize, topFrequent);
 
         // assert
@@ -258,7 +258,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 100000;
         int topFrequent = 100000;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(hugeFile.toString(), mapSize, topFrequent);
 
         // assert
@@ -278,7 +278,7 @@ public class TopFrequentPhrasesTest {
         int mapSize = 100;
         int topFrequent = 3;
 
-        TopFrequentPhrases topFrequentPhrases = new TopFrequentPhrases();
+        TopPhrases topFrequentPhrases = new TopPhrases();
         Map<String, Long> topPhrases = topFrequentPhrases.findTopPhrases(hugeFile.toString(), mapSize, topFrequent);
 
 

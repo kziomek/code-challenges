@@ -47,7 +47,7 @@ import java.util.*;
  * <p>
  * 5. Clean up tmp files
  */
-public class TopFrequentPhrases {
+public class TopPhrases {
 
     public static final String KEY_VALUE_SEPARATOR = "=";
     private static final boolean IS_DEBUG_MODE = false;
@@ -270,7 +270,7 @@ public class TopFrequentPhrases {
         }
 
         try {
-            Path tempFile = Files.createTempFile("TopFrequentPhrases", "");
+            Path tempFile = Files.createTempFile("TopPhrases", "");
             BufferedWriter writer = Files.newBufferedWriter(tempFile);
             for (Map.Entry<String, Long> entry : map.entrySet()) {
                 writer.write(entry.getKey() + KEY_VALUE_SEPARATOR + entry.getValue());
