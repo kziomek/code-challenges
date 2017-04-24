@@ -9,16 +9,12 @@ import java.util.Arrays;
 public class HeapSort {
 
     private int left(int i) {
-        return 2 * i;
-    }
-
-    private int right(int i) {
         return 2 * i + 1;
     }
 
-//    private int parent(int i) {
-//        return i/2;
-//    }
+    private int right(int i) {
+        return 2 * i + 2;
+    }
 
     private void exchange(int[] A, int i, int j) {
         int tmp = A[i];
@@ -44,9 +40,9 @@ public class HeapSort {
 
     public static void main(String[] args) {
         HeapSort heapSort = new HeapSort();
-        int[] A = {0, 16, 4, 10, 14, 7, 9, 3, 2, 8, 1};
+        int[] A = {16, 4, 10, 14, 7, 9, 3, 2, 8, 1};
         System.out.println(Arrays.toString(A));
-        heapSort.maxHeapify(A, 2);
+        heapSort.maxHeapify(A, 1);
         System.out.println(Arrays.toString(A));
     }
 
