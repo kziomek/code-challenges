@@ -23,23 +23,23 @@ public class MergeSort {
         int n2 = r - q;
         int[] L = new int[n1 + 1];
         int[] R = new int[n2 + 1];
-        int santiel = 0;
+        int sentinel = 0;
 
         for (int i = 0; i < n1; i++) {
             L[i] = A[p + i];
-            if (L[i] >= santiel) {
-                santiel = L[i] + 1;
+            if (L[i] >= sentinel) {
+                sentinel = L[i] + 1;
             }
         }
 
         for (int j = 0; j < n2; j++) {
             R[j] = A[q + j + 1];
-            if (R[j] >= santiel) {
-                santiel = R[j] + 1;
+            if (R[j] >= sentinel) {
+                sentinel = R[j] + 1;
             }
         }
-        L[n1] = santiel;
-        R[n2] = santiel;
+        L[n1] = sentinel;
+        R[n2] = sentinel;
 
         int i = 0;
         int j = 0;
