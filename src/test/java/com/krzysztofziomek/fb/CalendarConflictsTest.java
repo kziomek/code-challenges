@@ -44,7 +44,7 @@ public class CalendarConflictsTest {
     }
 
     @Test
-    public void testCallendarWithoutConflicts(){
+    public void testCallendarWithoutConflicts() {
         int[][] calendar = new int[][]{
                 {1, 2, 'a'},
                 {3, 5, 'b'},
@@ -62,7 +62,7 @@ public class CalendarConflictsTest {
     }
 
     @Test
-    public void testCallendarWithSubElement(){
+    public void testCallendarWithSubElement() {
         int[][] calendar = new int[][]{
                 {5, 6, 'a'},
                 {10, 14, 'b'},
@@ -78,6 +78,19 @@ public class CalendarConflictsTest {
         assertArrayEquals(calendar, conflicts);
     }
 
+    @Test
+    public void testCallendarWith2NonConflictElement() {
+        int[][] calendar = new int[][]{
+                {1, 4, 'a'},
+                {5, 8, 'b'}
+        };
+
+        int[][] conflicts = new CalendarConflicts().findConflicts(calendar);
+
+        calendar[0] = null;
+        calendar[1] = null;
+        assertArrayEquals(calendar, conflicts);
+    }
 
 
 }
