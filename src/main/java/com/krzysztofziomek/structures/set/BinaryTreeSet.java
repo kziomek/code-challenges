@@ -74,9 +74,66 @@ public class BinaryTreeSet<E extends Comparable<E>> implements MySet<E> {
 
     @Override
     public boolean remove(E element) {
+        Node<E> node = search(element);
+        if (node == null) {
+            return false;
+        }
 
-        // TODO
+        if (node.getLeft() == null && node.getRight() == null) { // Node has no children
+            if (node.getParent() == null) {
+                root = null;
+                return true;
+            } else {
+                if (node.getElement().equals(node.getParent().getLeft().getElement())) {
+                    node.getParent().setLeft(null);
+                    return true;
+                } else {
+                    node.getParent().setRight(null);
+                    return true;
+                }
+            }
+        } else if (node.getLeft() != null && node.getRight() != null) { // Node has 2 children
+            // TODO DELETE ELEMENT WITH TWO CHILDRENS
+        } else { // Node has 1 child
+            Node<E> child;
+            if (node.getLeft() != null) {
+                child = node.getLeft();
+            } else {
+                child = node.getRight();
+            }
+
+            if (node.getParent() == null) { //root
+                child.setParent(null);
+                root = child;
+                return true;
+            } else {
+                if (node.getElement().equals(node.getParent().getLeft().getElement())) { //node is on left side
+                    node.getParent().setLeft(child);
+                    child.setParent(node.getParent());
+                    return true;
+                } else { //node is on right side
+                    node.getParent().setRight(child);
+                    child.setParent(node.getParent());
+                    return true;
+                }
+            }
+        }
         return false;
+    }
+
+    public Node<E> search(E element) {
+        return search(root, element);
+    }
+
+    private Node<E> search(Node<E> node, E element) {
+        if (node == null || node.getElement().compareTo(element) == 0) {
+            return node;
+        }
+        if (node.getElement().compareTo(element) > 0) {
+            return search(node.getLeft(), element);
+        } else {
+            return search(node.getRight(), element);
+        }
     }
 
 
@@ -102,7 +159,7 @@ public class BinaryTreeSet<E extends Comparable<E>> implements MySet<E> {
     private void printElement(Node<E> node) {
         Node p = node.getParent();
         while (p != null) {
-            System.out.print(" ");
+            System.out.print("  ");
             p = p.getParent();
         }
         System.out.println(node.getElement());
