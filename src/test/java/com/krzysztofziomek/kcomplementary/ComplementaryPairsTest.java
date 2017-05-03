@@ -1,6 +1,6 @@
 package com.krzysztofziomek.kcomplementary;
 
-import com.sun.tools.javac.util.Pair;
+import org.apache.commons.lang3.tuple.MutablePair;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class ComplementaryPairsTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
+        Set<MutablePair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
         Assert.assertEquals(0, resultSet.size());
@@ -43,7 +43,7 @@ public class ComplementaryPairsTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
+        Set<MutablePair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
         Assert.assertEquals(0, resultSet.size());
@@ -59,10 +59,10 @@ public class ComplementaryPairsTest {
         Integer k = 4;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
+        Set<MutablePair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
-        assertTrue(resultSet.contains(new Pair<>(0, 0)));
+        assertTrue(resultSet.contains(new MutablePair<>(0, 0)));
     }
 
     /**
@@ -75,7 +75,7 @@ public class ComplementaryPairsTest {
         Integer k = 4;
 
         // execute
-        Set<Pair<Integer, Integer>> result = complementaryPairs.process(A, k);
+        Set<MutablePair<Integer, Integer>> result = complementaryPairs.process(A, k);
 
         // assert
         assertEquals(0, result.size());
@@ -88,13 +88,13 @@ public class ComplementaryPairsTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
+        Set<MutablePair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
-        assertTrue(resultSet.contains(new Pair<>(0, 3)));
-        assertTrue(resultSet.contains(new Pair<>(1, 2)));
-        assertTrue(resultSet.contains(new Pair<>(2, 1)));
-        assertTrue(resultSet.contains(new Pair<>(3, 0)));
+        assertTrue(resultSet.contains(new MutablePair<>(0, 3)));
+        assertTrue(resultSet.contains(new MutablePair<>(1, 2)));
+        assertTrue(resultSet.contains(new MutablePair<>(2, 1)));
+        assertTrue(resultSet.contains(new MutablePair<>(3, 0)));
 
 
     }
@@ -106,13 +106,13 @@ public class ComplementaryPairsTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
+        Set<MutablePair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
-        assertTrue(resultSet.contains(new Pair<>(0, 2)));
-        assertTrue(resultSet.contains(new Pair<>(2, 0)));
-        assertTrue(resultSet.contains(new Pair<>(3, 4)));
-        assertTrue(resultSet.contains(new Pair<>(4, 3)));
+        assertTrue(resultSet.contains(new MutablePair<>(0, 2)));
+        assertTrue(resultSet.contains(new MutablePair<>(2, 0)));
+        assertTrue(resultSet.contains(new MutablePair<>(3, 4)));
+        assertTrue(resultSet.contains(new MutablePair<>(4, 3)));
 
     }
 
@@ -123,15 +123,15 @@ public class ComplementaryPairsTest {
         Integer k = 5;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
+        Set<MutablePair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         // assert
-        assertTrue(resultSet.contains(new Pair<>(0, 2)));
-        assertTrue(resultSet.contains(new Pair<>(2, 0)));
-        assertTrue(resultSet.contains(new Pair<>(3, 4)));
-        assertTrue(resultSet.contains(new Pair<>(3, 5)));
-        assertTrue(resultSet.contains(new Pair<>(4, 3)));
-        assertTrue(resultSet.contains(new Pair<>(5, 3)));
+        assertTrue(resultSet.contains(new MutablePair<>(0, 2)));
+        assertTrue(resultSet.contains(new MutablePair<>(2, 0)));
+        assertTrue(resultSet.contains(new MutablePair<>(3, 4)));
+        assertTrue(resultSet.contains(new MutablePair<>(3, 5)));
+        assertTrue(resultSet.contains(new MutablePair<>(4, 3)));
+        assertTrue(resultSet.contains(new MutablePair<>(5, 3)));
 
     }
 
@@ -142,19 +142,19 @@ public class ComplementaryPairsTest {
         Integer k = 2;
 
         // execute
-        Set<Pair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
+        Set<MutablePair<Integer, Integer>> resultSet = complementaryPairs.process(A, k);
 
         System.out.println(resultSet);
         // assert
-        assertTrue(resultSet.contains(new Pair<>(0, 0)));
-        assertTrue(resultSet.contains(new Pair<>(0, 1)));
-        assertTrue(resultSet.contains(new Pair<>(0, 2)));
-        assertTrue(resultSet.contains(new Pair<>(1, 0)));
-        assertTrue(resultSet.contains(new Pair<>(1, 1)));
-        assertTrue(resultSet.contains(new Pair<>(1, 2)));
-        assertTrue(resultSet.contains(new Pair<>(2, 0)));
-        assertTrue(resultSet.contains(new Pair<>(2, 1)));
-        assertTrue(resultSet.contains(new Pair<>(2, 2)));
+        assertTrue(resultSet.contains(new MutablePair<>(0, 0)));
+        assertTrue(resultSet.contains(new MutablePair<>(0, 1)));
+        assertTrue(resultSet.contains(new MutablePair<>(0, 2)));
+        assertTrue(resultSet.contains(new MutablePair<>(1, 0)));
+        assertTrue(resultSet.contains(new MutablePair<>(1, 1)));
+        assertTrue(resultSet.contains(new MutablePair<>(1, 2)));
+        assertTrue(resultSet.contains(new MutablePair<>(2, 0)));
+        assertTrue(resultSet.contains(new MutablePair<>(2, 1)));
+        assertTrue(resultSet.contains(new MutablePair<>(2, 2)));
 
     }
 

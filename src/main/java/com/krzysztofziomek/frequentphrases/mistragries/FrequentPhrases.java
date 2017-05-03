@@ -1,7 +1,8 @@
 package com.krzysztofziomek.frequentphrases.mistragries;
 
 import com.krzysztofziomek.utils.FileUtils;
-import com.sun.deploy.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -51,7 +52,7 @@ public class FrequentPhrases {
         //build mistra map
         Stream<String> stream = Files.lines(Paths.get(file));
         stream.forEach(line -> {
-            String[] elements = StringUtils.splitString(line, "|");
+            String[] elements = StringUtils.split(line, "|");
             for (String elem : elements) {
                 map.put(elem);
                 System.out.println(map.toString());
@@ -65,7 +66,7 @@ public class FrequentPhrases {
         final long[] m = {0};
         Stream<String> stream2 = Files.lines(Paths.get(file));
         stream2.forEach(line -> {
-            String[] elements = StringUtils.splitString(line, "|");
+            String[] elements = StringUtils.split(line, "|");
             for (String elem : elements) {
                 m[0]++;
                 if (map.containsKey(elem)) {
@@ -90,7 +91,7 @@ public class FrequentPhrases {
 
         Stream<String> stream = Files.lines(Paths.get(fileName));
         stream.forEach(line -> {
-            String[] elements = StringUtils.splitString(line, "|");
+            String[] elements = StringUtils.split(line, "|");
             for (String elem : elements) {
                 map.put(elem);
             }

@@ -1,6 +1,7 @@
 package com.krzysztofziomek.frequentphrases.topfrequent;
 
-import com.sun.deploy.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,7 +19,7 @@ public class InMemoryAlgorithm {
         Map<String, Long> phraseCounter = new HashMap<>();
 
         Files.lines(hugeFile).forEach(line -> {
-            String[] phrases = StringUtils.splitString(line, "|");
+            String[] phrases = StringUtils.split(line, "|");
             for (String phrase : phrases) {
                 if (phraseCounter.containsKey(phrase)) {
                     phraseCounter.put(phrase, phraseCounter.get(phrase) + 1);

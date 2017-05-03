@@ -1,6 +1,8 @@
 package com.krzysztofziomek.kcomplementary;
 
-import com.sun.tools.javac.util.Pair;
+//import com.sun.tools.javac.util.Pair;
+
+import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.*;
 
@@ -14,8 +16,8 @@ import java.util.*;
  * Algorithm complexity is O(n)
  */
 public class ComplementaryPairs {
-    public Set<Pair<Integer, Integer>> process(Integer[] A, Integer k) {
-        Set<Pair<Integer, Integer>> pairs = new HashSet<>();
+    public Set<MutablePair<Integer, Integer>> process(Integer[] A, Integer k) {
+        Set<MutablePair<Integer, Integer>> pairs = new HashSet<>();
         if (A == null) {
             return pairs;
         }
@@ -47,7 +49,7 @@ public class ComplementaryPairs {
                  * O(1)
                  */
                 for (Integer iIndex : map.get(A[j])) {
-                    pairs.add(new Pair<>(j, iIndex));
+                    pairs.add(new MutablePair<>(j, iIndex));
                 }
             }
         }

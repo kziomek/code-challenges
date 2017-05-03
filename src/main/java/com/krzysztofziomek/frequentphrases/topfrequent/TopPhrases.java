@@ -1,6 +1,7 @@
 package com.krzysztofziomek.frequentphrases.topfrequent;
 
-import com.sun.deploy.util.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -111,7 +112,7 @@ public class TopPhrases {
         long[] freeSlots = {lowerCounterFreeSlots};
         for (Path file : files) {
             Files.lines(file).forEach(line -> {
-                String[] entry = StringUtils.splitString(line, KEY_VALUE_SEPARATOR);
+                String[] entry = StringUtils.split(line, KEY_VALUE_SEPARATOR);
                 Long value = Long.valueOf(entry[1]);
                 if (value >= minCounter) {
                     if (value.compareTo(minCounter) == 0 && freeSlots[0] > 0) {
@@ -134,7 +135,7 @@ public class TopPhrases {
 
         for (Path file : files) {
             Files.lines(file).forEach(line -> {
-                String[] entry = StringUtils.splitString(line, KEY_VALUE_SEPARATOR);
+                String[] entry = StringUtils.split(line, KEY_VALUE_SEPARATOR);
                 topCountersMap.add(Long.valueOf(entry[1]));
             });
         }
@@ -225,14 +226,14 @@ public class TopPhrases {
         List<Path> fragmentaryTmpFiles = new ArrayList<>();
 
         Files.lines(Paths.get(hugeInputFile)).forEach(line -> {
-            String[] phrases = StringUtils.splitString(line, "|");
+            String[] phrases = StringUtils.split(line, "|");
             for (String phrase : phrases) {
                 if (memoryCounterMap.size() >= memoryCounterMapMaxSize) {
                     fragmentaryTmpFiles.add(
                             flushMapToFile(memoryCounterMap)
                     );
                 }
-                putElementInMap(memoryCounterMap, StringUtils.trimWhitespace(phrase));
+                putElementInMap(memoryCounterMap, trimWhitespace(phrase));
             }
         });
 
@@ -290,12 +291,29 @@ public class TopPhrases {
         Map<String, Long> map = new HashMap<>();
         BufferedReader bufferedReader = Files.newBufferedReader(path);
         bufferedReader.lines().forEach(line -> {
-            String[] entry = StringUtils.splitString(line, KEY_VALUE_SEPARATOR);
+            String[] entry = StringUtils.split(line, KEY_VALUE_SEPARATOR);
             map.put(entry[0], Long.valueOf(entry[1]));
         });
         bufferedReader.close();
         Files.deleteIfExists(path);
         return map;
+    }
+
+    public static String trimWhitespace(String var0) {
+        if(var0 == null) {
+            return var0;
+        } else {
+            StringBuffer var1 = new StringBuffer();
+
+            for(int var2 = 0; var2 < var0.length(); ++var2) {
+                char var3 = var0.charAt(var2);
+                if(var3 != 10 && var3 != 12 && var3 != 13 && var3 != 9) {
+                    var1.append(var3);
+                }
+            }
+
+            return var1.toString().trim();
+        }
     }
 
 }
