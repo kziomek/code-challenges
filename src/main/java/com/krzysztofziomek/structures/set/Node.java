@@ -21,6 +21,10 @@ public class Node<E extends Comparable<E>> {
         return element;
     }
 
+    public void setElement(E element){
+        this.element = element;
+    }
+
     public Node<E> getParent() {
         return parent;
     }

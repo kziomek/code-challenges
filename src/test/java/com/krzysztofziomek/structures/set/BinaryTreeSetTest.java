@@ -156,13 +156,50 @@ public class BinaryTreeSetTest {
 
     @Test
     public void deleteLeftNodeWithTwoChildren() {
-        //TODO
+        BinaryTreeSet<Integer> set = buildTreeForDeleteTests();
+//        set.print();
+        assertTrue(set.contains(5));
+
+        // execute
+        assertTrue(set.remove(5));
+        set.print();
+
+        assertFalse(set.contains(5));
+        assertEquals(new Integer(6), set.getRoot().getLeft().getElement());
+        assertEquals(new Integer(7), set.getRoot().getLeft().getRight().getLeft().getLeft().getElement());
     }
 
     @Test
     public void deleteRightNodeWithTwoChildren() {
-        //TODO
+        BinaryTreeSet<Integer> set = buildTreeForDeleteTests();
+//        set.print();
+        assertTrue(set.contains(20));
+
+        // execute
+        assertTrue(set.remove(20));
+        set.print();
+
+        assertFalse(set.contains(20));
+        assertEquals(new Integer(22), set.getRoot().getRight().getRight().getElement());
+        assertNull(set.getRoot().getRight().getRight().getRight().getLeft());
     }
+
+    @Test
+    public void deleteRootWithTwoChildren() {
+        BinaryTreeSet<Integer> set = buildTreeForDeleteTests();
+//        set.print();
+        assertTrue(set.contains(15));
+
+        // execute
+        assertTrue(set.remove(15));
+        set.print();
+
+        assertFalse(set.contains(15));
+        assertEquals(new Integer(16), set.getRoot().getElement());
+        assertEquals(new Integer(20), set.getRoot().getRight().getElement());
+        assertEquals(new Integer(5), set.getRoot().getLeft().getElement());
+    }
+
 
     private BinaryTreeSet<Integer> buildTreeForDeleteTests() {
         BinaryTreeSet<Integer> set = new BinaryTreeSet<>();

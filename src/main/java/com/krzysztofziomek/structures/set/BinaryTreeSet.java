@@ -93,7 +93,22 @@ public class BinaryTreeSet<E extends Comparable<E>> implements MySet<E> {
                 }
             }
         } else if (node.getLeft() != null && node.getRight() != null) { // Node has 2 children
-            // TODO DELETE ELEMENT WITH TWO CHILDRENS
+            if (node == root) {
+                root = node.getRight();
+                root.setParent(null);
+                root.setLeft(node.getLeft());
+                node.getLeft().setParent(root);
+                return true;
+            } else {
+                Node<E> successor = findSuccesor(node);
+                if (successor.getRight() != null) {
+                    successor.getRight().setParent(successor.getParent());
+                }
+                successor.getParent().setLeft(successor.getRight());
+                node.setElement(successor.getElement());
+                return true;
+            }
+
         } else { // Node has 1 child
             Node<E> child;
             if (node.getLeft() != null) {
@@ -118,11 +133,32 @@ public class BinaryTreeSet<E extends Comparable<E>> implements MySet<E> {
                 }
             }
         }
-        return false;
+//        return false;
     }
 
     public Node<E> search(E element) {
         return search(root, element);
+    }
+
+    private Node<E> findSuccesor(Node<E> x) {
+        if (x.getRight() != null) {
+            return findMinimum(x.getRight());
+        }
+        Node<E> s = x.getParent();
+        while (s != null && x == s.getRight()) {
+            x = s;
+            s = s.getParent();
+        }
+        return s;
+
+    }
+
+    private Node<E> findMinimum(Node<E> node) {
+        Node<E> min = node;
+        while (min.getLeft() != null) {
+            min = min.getLeft();
+        }
+        return min;
     }
 
     private Node<E> search(Node<E> node, E element) {
