@@ -133,7 +133,6 @@ public class BinaryTreeSet<E extends Comparable<E>> implements MySet<E> {
                 }
             }
         }
-//        return false;
     }
 
     public Node<E> search(E element) {
