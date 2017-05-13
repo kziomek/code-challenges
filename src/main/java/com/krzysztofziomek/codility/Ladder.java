@@ -10,7 +10,7 @@ public class Ladder {
         int[] P = new int[31];
         P[0] = 1;
         for (int i = 1; i < P.length; i++) {
-            P[i] = P[i - 1] * 2;
+            P[i] = P[i - 1] << 1;
         }
         return P;
     }
