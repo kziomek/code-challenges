@@ -22,6 +22,19 @@ public class NailingPlanksTest {
     }
 
     @org.junit.Test
+    public void shouldReturnNumberOfNailsToCoverPlanks5() {
+
+        NailingPlanks nailingPlanks = new NailingPlanks();
+
+        int[] A = new int[]{1, 4, 5, 8};
+        int[] B = new int[]{4, 5, 9, 10};
+        int[] C = new int[]{4, 6, 7, 2, 10};
+
+        Assert.assertEquals(5, nailingPlanks.solution(A, B, C));
+
+    }
+
+    @org.junit.Test
     public void shouldReturnNumberOfNailsToCoverPlanks2() {
 
         NailingPlanks nailingPlanks = new NailingPlanks();
@@ -67,7 +80,7 @@ public class NailingPlanksTest {
 
         int[] A = new int[]{1, 4, 5, 8};
         int[] B = new int[]{4, 5, 9, 10};
-        int[] C = new int[]{4, 6, 7};
+        int[] C = new int[]{4, 6, 7, 2, 1};
 
         Assert.assertEquals(-1, nailingPlanks.solution(A, B, C));
 

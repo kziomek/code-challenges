@@ -1,87 +1,44 @@
 package com.krzysztofziomek.codility;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Krzysztof Ziomek
  * @since 18/05/2017.
  */
 public class NailingPlanks {
 
+    public int solution(int[] A, int[] B, int[] C) {
+        int begin = 0;
+        int end = C.length - 1;
+        int res = -1;
 
-    public int solution(int[] a, int[] b, int[] c) {
-        Map<Integer, Integer> idxMap = buildIdxMap(c);
-        Arrays.sort(c);
-
-        int maxNailIdx = -1;
-        int plankFirstNailIdx;
-
-        for (int i = 0; i < a.length; i++) {
-
-            plankFirstNailIdx = findFirstNailIdx(a[i], b[i], c, idxMap, maxNailIdx);
-            if (plankFirstNailIdx == -1) {
-                return -1;
+        while (begin <= end) {
+            int mid = (end + begin) / 2;
+            if (check(A, B, C, mid+1)) {
+                end = mid-1;
+                res = mid+1;
+            } else {
+                begin = mid+1;
             }
-            if (plankFirstNailIdx > maxNailIdx) {
-                maxNailIdx = plankFirstNailIdx;
-            }
-
         }
-
-        return maxNailIdx + 1;
+        return res;
     }
 
-    private int findFirstNailIdx(int a, int b, int[] c, Map<Integer, Integer> idxMap, int preResult) {
-        int lo = 0;
-        int hi = c.length - 1;
-        int mid;
-        int nailIdx = Integer.MAX_VALUE;
-        int nail;
-
-        while (lo <= hi) {
-            mid = (hi + lo) / 2;
-            nail = c[mid];
-            if (nail > b) {
-                hi = mid - 1;
-            } else if (nail < a) {
-                lo = mid + 1;
-            } else {
-                hi = mid - 1;
-            }
+    public boolean check(int[] A, int[] B, int[] C, int num) {
+        int[] nails = new int[2 * C.length + 1];
+        for (int i = 0; i < num; i++) {
+            nails[C[i]] = 1;
         }
 
-        int pos = lo;
-        int idx;
-        while (pos < c.length) {
-            if (c[pos] > b) {
-                break;
-            }
-            nail = c[pos];
-            idx = idxMap.get(nail);
-            if (idx < nailIdx) {
-                nailIdx = idx;
-            }
-            pos = pos + 1;
-            if (nailIdx < preResult) return nailIdx;
+        for (int i = 1; i < nails.length; i++) {
+            nails[i] = nails[i] + nails[i - 1];
         }
 
-        return nailIdx == Integer.MAX_VALUE ? -1 : nailIdx;
-    }
-
-    private Map<Integer, Integer> buildIdxMap(int[] c) {
-        Map<Integer, Integer> idxMap = new HashMap<>();
-
-        for (int i = 0; i < c.length; i++) {
-            if (idxMap.containsKey(c[i])) {
-                if (idxMap.get(c[i]) > i) {
-                    idxMap.put(c[i], i);
-                }
-            } else {
-                idxMap.put(c[i], i);
+        for (int i = 0; i < A.length; i++) {
+            if (nails[B[i]] == nails[A[i] - 1]) {
+                return false;
             }
         }
-        return idxMap;
+        return true;
+
     }
 }
