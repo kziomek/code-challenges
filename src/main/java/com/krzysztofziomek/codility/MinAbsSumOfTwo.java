@@ -8,35 +8,29 @@ import java.util.Arrays;
  */
 public class MinAbsSumOfTwo {
 
-    private int abs(int num){
-        if (num >=0){
-            return num;
-        } else {
-            return num - 2*num;
-        }
-    }
-
     public int solution(int[] A) {
         Arrays.sort(A);
-        int min = abs(A[0]+A[0]);
+        int min = Integer.MAX_VALUE;
+        int diff;
 
         int left = 0;
-        int right=A.length-1;
+        int right = A.length - 1;
 
-        while (left<right && A[left] < 0 && A[right] > 0) {
-            min = Math.min(min, abs(A[left]+A[right]));
-            if (abs(A[left])>A[right]){
-                left++;
-            } else{
-                right--;
+
+        while (left <= right) {
+            diff = A[left] + A[right];
+            if (diff == 0) {
+                return 0;
             }
-        }
+            if (diff > 0) {
+                right--;
 
-        if (left<=right && A[left]<=0 && A[right]<=0){
-            min = Math.min(min, abs(2 * A[right]));
-        }
-        if (left<=right && A[left]>=0 && A[right]>=0){
-            min = Math.min(min, 2*A[left]);
+            } else {
+                left++;
+                diff = -diff;
+            }
+            min = Math.min(min, diff);
+
         }
 
         return min;
