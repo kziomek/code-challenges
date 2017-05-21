@@ -11,14 +11,14 @@ public class MinAbsSumTest {
 
     @Test
     public void solution() throws Exception {
-        Assert.assertEquals(0,new MinAbsSum().solution(new int[]{1,5,2,-2}));
+        Assert.assertEquals(0, new MinAbsSum().solution(new int[]{1, 5, 2, -2}));
 
-        Assert.assertEquals(0,new MinAbsSum().solution(new int[]{1,-2,-3,4,-5,7}));
+        Assert.assertEquals(0, new MinAbsSum().solution(new int[]{1, -2, -3, 4, -5, 7}));
 
-        Assert.assertEquals(0,new MinAbsSum().solution(new int[]{0,0,0}));
-        Assert.assertEquals(0,new MinAbsSum().solution(new int[]{3, 3, 3, 4, 5}));
-        Assert.assertEquals(6,new MinAbsSum().solution(new int[]{10, 11, 12, 13, 14}));
-        Assert.assertEquals(1,new MinAbsSum().solution(new int[]{2, 2, 1}));
+        Assert.assertEquals(0, new MinAbsSum().solution(new int[]{0, 0, 0}));
+        Assert.assertEquals(0, new MinAbsSum().solution(new int[]{3, 3, 3, 4, 5}));
+        Assert.assertEquals(6, new MinAbsSum().solution(new int[]{10, 11, 12, 13, 14}));
+        Assert.assertEquals(1, new MinAbsSum().solution(new int[]{2, 2, 1}));
 
 
     }
