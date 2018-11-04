@@ -1,59 +1,36 @@
 package com.krzysztofziomek.fb.Q_5709428993556480;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-
 import java.util.*;
 
 /**
  * @author Krzysztof Ziomek
  * @since 03/11/2018.
  * https://www.careercup.com/question?id=5709428993556480
+ *
+ * ..............6
+ * ............/...\
+ * ...........9.....4
+ * ........../..\....\
+ * .........5....1....6
+ * ..........\......../
+ * ...........0.... .7
+ * .............\.......
+ * ..............11
+ * ................\
+ * .................12
+ * ...................\
+ * ...................13
+ * .....................\
+ * ......................14
+ *
  */
 public class Q_5709428993556480 {
 
 
-    public static void main(String[] args){
-
-/*
-..............6
-............/....\
-...........9......4
-........../..\.....\
-.........5....1.....3
-..........\......../
-...........0......7
+    public static void main(String[] args) {
 
         Node root = new Node(6);
         root.left = new Node(9);
-        root.right = new Node(4);
-        root.left.left = new Node(5);
-        root.left.right = new Node(1);
-        root.left.left.right = new Node(0);
-        root.right.right = new Node(3);
-        root.right.right.left = new Node(7);
-*/
-
-/*
-..............6
-............/...\
-...........9.....4
-........../..\....\
-.........5....1....6
-..........\......../
-...........0.... .7
-.............\.......
-..............11
-................\
-.................12
-...................\
-...................13
-.....................\
-......................14
-
-*/
-        Node root = new Node(6);
-        root.left= new Node(9);
         root.right = new Node(4);
         root.left.left = new Node(5);
         root.left.right = new Node(1);
@@ -65,29 +42,55 @@ public class Q_5709428993556480 {
         root.left.left.right.right.right.right = new Node(13);
         root.left.left.right.right.right.right.right = new Node(14);
 
-        printInVerticalOrder(root);
+        Q_5709428993556480 app = new Q_5709428993556480();
+        app.printInVerticalOrder(root) ;
     }
 
-    // TODO implement breadth-first order traversal so simplify
-    public static void printInVerticalOrder(Node root){
-        // map of horizontal distance to set of pairs of node level and value
-        TreeMap<Integer, TreeSet<Pair<Integer,Integer>>> horizontalDistances = new TreeMap<>();
-        collectDistances(root, horizontalDistances, 0,0);
+    private void printInVerticalOrder(Node root) {
+        if (root == null){
+            return;
+        }
+        TreeMap<Integer, List<Integer>> hdToValues = collectHorizontalDistancesToValues(root);
+        print(hdToValues);
+    }
 
-        while (!horizontalDistances.isEmpty()) {
-            TreeSet<Pair<Integer,Integer>> integerListEntry = horizontalDistances.pollFirstEntry().getValue();
-            integerListEntry.forEach(i -> System.out.print(i.getValue() + " "));
+    private TreeMap<Integer, List<Integer>> collectHorizontalDistancesToValues(Node root) {
+        TreeMap<Integer, List<Integer>> hdToValues = new TreeMap<>();
+
+        LinkedList<HDNode> nodes = new LinkedList<>();
+        nodes.add(new HDNode(0, root));
+        while (!nodes.isEmpty()) {
+            HDNode hdNode = nodes.removeFirst();
+
+            hdToValues.putIfAbsent(hdNode.hd, new ArrayList<>());
+            hdToValues.get(hdNode.hd).add(hdNode.node.value);
+
+            if(hdNode.node.left != null){
+                nodes.add(new HDNode(hdNode.hd - 1, hdNode.node.left));
+            }
+            if(hdNode.node.right != null){
+                nodes.add(new HDNode(hdNode.hd + 1, hdNode.node.right));
+            }
+        }
+        return hdToValues;
+    }
+
+    private void print(TreeMap<Integer, List<Integer>> hdToValues) {
+        while (!hdToValues.isEmpty()) {
+            Map.Entry<Integer, List<Integer>> entry = hdToValues.pollFirstEntry();
+            entry.getValue().forEach(v -> System.out.print(v + " "));
             System.out.println("\n");
         }
     }
 
-    public static void collectDistances(Node node, Map<Integer, TreeSet<Pair<Integer,Integer>>> horizontalDistances, int nodeHD, int nodeLevel) {
-        if (node == null) {
-            return;
+    private class HDNode {
+        int hd;
+        Node node;
+
+        HDNode(int hd, Node node) {
+            this.hd = hd;
+            this.node = node;
         }
-        TreeSet<Pair<Integer,Integer>> valuesInDistance = horizontalDistances.computeIfAbsent(nodeHD, k -> new TreeSet<>(Comparator.comparingInt(Pair::getLeft)));
-        valuesInDistance.add(new ImmutablePair<>(nodeLevel, node.value));
-        collectDistances(node.left, horizontalDistances, nodeHD - 1, nodeLevel + 1);
-        collectDistances(node.right, horizontalDistances, nodeHD + 1, nodeLevel + 1);
     }
+
 }
