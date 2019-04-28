@@ -6,7 +6,7 @@ import org.junit.Assert;
  * @author Krzysztof Ziomek
  * @since 12/05/2017.
  */
-public class CountSemiPrimesTest {
+public class CountSemiprimesTest {
 
     @org.junit.Test
     public void solution() throws Exception {
