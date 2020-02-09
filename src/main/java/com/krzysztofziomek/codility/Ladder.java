@@ -18,7 +18,9 @@ public class Ladder {
     private int[] fibL(int n, int p30) {
         int[] fib = new int[n + 1];
         fib[1] = 1;
-        fib[2] = 2;
+        if (n >= 2) {
+            fib[2] = 2;
+        }
 
         for (int i = 3; i <= n; i++) {
             fib[i] = (fib[i - 1] + fib[i - 2]) % p30;
@@ -29,12 +31,11 @@ public class Ladder {
 
     public int[] solution(int[] A, int[] B) {
         int[] P = buildP();
-        int[] fib = fibL(30000, P[30]);
+        int[] fib = fibL(A.length, P[30]);
 
         int[] L = new int[A.length];
         for (int i = 0; i < L.length; i++) {
             L[i] = fib[A[i]] % P[B[i]];
-
         }
         return L;
 
