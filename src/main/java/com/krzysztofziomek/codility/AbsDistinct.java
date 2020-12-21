@@ -6,7 +6,8 @@ package com.krzysztofziomek.codility;
  *
  *
     Task description
-    A non-empty zero-indexed array A consisting of N numbers is given. The array is sorted in non-decreasing order. The absolute distinct count of this array is the number of distinct absolute values among the elements of the array.
+    A non-empty zero-indexed array A consisting of N numbers is given. The array is sorted in non-decreasing order.
+    The absolute distinct count of this array is the number of distinct absolute values among the elements of the array.
 
     For example, consider array A such that:
 
@@ -49,62 +50,40 @@ package com.krzysztofziomek.codility;
 
 public class AbsDistinct {
 
-    private int abs(int value) {
+    private long abs(long value) {
         return value < 0 ? -value : value;
     }
 
     public int solution(int[] A) {
-        int count = 0;
-        int left = 0;
-        int right = A.length - 1;
+        long[] B = new long[A.length];
+        int l = 0, r = A.length - 1;
+        long lVal;
+        long rVal;
 
-        int absLeft;
-        int lastValue = Integer.MIN_VALUE;
-
-        if (A[left] == Integer.MIN_VALUE){
-            count++;
-            while (left <= right && A[left] == Integer.MIN_VALUE) {
-                left++;
-            }
-        }
-
-        while (left <= right && A[left] < 0 && A[right] >= 0) {
-            absLeft = abs(A[left]);
-
-            if (absLeft > A[right]) {
-                if (absLeft != lastValue) {
-                    lastValue = absLeft;
-                    count++;
-                }
-                left++;
-                absLeft = abs(A[left]);
+        // write sorted to array B
+        int b = 0;
+        while (l <= r) {
+            lVal = abs(A[l]);
+            rVal = abs(A[r]);
+            if (lVal >= rVal) {
+                B[b] = lVal;
+                l++;
             } else {
-                if (A[right] != lastValue) {
-                    lastValue = A[right];
-                    count++;
-                }
-                right--;
+                B[b] = rVal;
+                r--;
             }
-
-            while(left <= right && absLeft == lastValue){
-                left++;
-                absLeft = abs(A[left]);
-            }
-            while(left <= right && A[right] == lastValue){
-                right--;
-            }
+            b++;
         }
 
-        while (left <= right) {
-            if (A[left] != lastValue) {
-                lastValue = A[left];
+        //count
+        long lastValue = B[0];
+        int count = 1;
+        for (long v : B) {
+            if (v != lastValue) {
                 count++;
+                lastValue = v;
             }
-            left++;
         }
         return count;
     }
-
 }
-
-
