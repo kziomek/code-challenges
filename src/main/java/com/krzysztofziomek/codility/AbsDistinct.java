@@ -55,6 +55,28 @@ public class AbsDistinct {
     }
 
     public int solution(int[] A) {
+        int l = 0, r = A.length - 1;
+        long lv, rv;
+        int count = 0;
+
+        while (l <= r) {
+            count++;
+            lv = abs(A[l]);
+            rv = abs(A[r]);
+
+            if (lv > rv) {
+                while (++l <= r && lv == abs(A[l]));
+            } else if (lv < rv) {
+                while (l <= --r && rv == abs(A[r]));
+            } else {
+                while (++l <= r && lv == abs(A[l]));
+                while (l <= --r && rv == abs(A[r]));
+            }
+        }
+        return count;
+    }
+
+    public int solution2(int[] A) {
         long[] B = new long[A.length];
         int l = 0, r = A.length - 1;
         long lVal;
