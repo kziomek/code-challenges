@@ -1,6 +1,7 @@
 package com.krzysztofziomek.codility;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * @author Krzysztof Ziomek
@@ -8,7 +9,7 @@ import org.junit.Assert;
  */
 public class NailingPlanksTest {
 
-    @org.junit.Test
+    @Test
     public void shouldReturnNumberOfNailsToCoverPlanks() {
 
         NailingPlanks nailingPlanks = new NailingPlanks();
