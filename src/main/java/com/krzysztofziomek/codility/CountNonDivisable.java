@@ -43,5 +43,4 @@ public class CountNonDivisable {
         return N;
 
     }
-
 }

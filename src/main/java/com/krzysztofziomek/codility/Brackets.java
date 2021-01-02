@@ -6,52 +6,46 @@ package com.krzysztofziomek.codility;
  */
 class Brackets {
 
-    private class Stack{
+    private class Stack {
 
         char[] S;
         int topS;
 
-        public Stack(int N){
+        public Stack(int N) {
             S = new char[N];
             topS = -1;
         }
 
         public void push(char c) {
-            topS++;
-            S[topS] = c;
+            S[++topS] = c;
         }
 
-        public char pop(){
-            char c = S[topS];
-            topS--;
-            return c;
+        public char pop() {
+            return S[topS--];
         }
 
-        public boolean isEmpty(){
+        public boolean isEmpty() {
             return topS == -1;
         }
-
     }
 
-
-
     public int solution(String str) {
-        int N = 200001;
+        int N = 200000;
         Stack stack = new Stack(N);
 
         char c;
-        for(int i=0; i < str.length(); i++) {
+        for (int i = 0; i < str.length(); i++) {
             c = str.charAt(i);
             if (c == '(' || c == '{' || c == '[') {
                 stack.push(c);
             } else {
-                if (stack.isEmpty()){
+                if (stack.isEmpty()) {
                     return 0;
                 }
                 char cStack = stack.pop();
                 if (c == ')' && cStack == '('
-                        || c == '}' && cStack == '{'
-                        || c == ']' && cStack == '[') {
+                    || c == '}' && cStack == '{'
+                    || c == ']' && cStack == '[') {
                     //OK
                 } else {
                     return 0;
@@ -64,7 +58,5 @@ class Brackets {
         } else {
             return 0;
         }
-
     }
-
 }

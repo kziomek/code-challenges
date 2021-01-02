@@ -6,7 +6,7 @@ package com.krzysztofziomek.codility;
  */
 class Fish {
 
-    private class Stack {
+    private static class Stack {
         long[] S;
         int topS;
 
@@ -16,8 +16,7 @@ class Fish {
         }
 
         public void push(long fish) {
-            topS++;
-            S[topS] = fish;
+            S[++topS] = fish;
         }
 
         public long peek() {
@@ -25,47 +24,37 @@ class Fish {
         }
 
         public long pop() {
-            long fish = S[topS];
-            topS--;
-            return fish;
+            return S[topS--];
         }
 
         public boolean isEmpty() {
             return topS == -1;
         }
 
+        public long size() { return topS + 1; }
     }
 
     public int solution(long[] A, long[] B) {
         Stack stack = new Stack(100000);
-        int counter = 0;
+        int survivals = 0;
         for (int i = 0; i < A.length; i++) {
-            long right = A[i];
+            long fish = A[i];
             if (B[i] == 1) {
-                stack.push(right);
+                stack.push(fish);
             } else {
-                boolean alive = true;
-                while (!stack.isEmpty() && alive) {
-                    long left = stack.peek();
-                    if (left > right) {
-                        alive = false;
+                while (!stack.isEmpty()) {
+                    if (stack.peek() > fish) {
+                        break;
                     } else {
                         stack.pop();
                     }
                 }
-                if (stack.isEmpty() && alive) {
-                    counter++;
+                if (stack.isEmpty()) {
+                    survivals++;
                 }
-
             }
-
         }
-        while (!stack.isEmpty()) {
-            stack.pop();
-            counter++;
-        }
-        return counter;
-
+        survivals+=stack.size();
+        return survivals;
     }
-
 }
