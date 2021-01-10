@@ -16,13 +16,15 @@ public class Palindrome {
             return false;
         }
 
-        char[] chars = string.toCharArray();
-        int length = chars.length;
+        char[] c = string.toCharArray();
+        int l=0, r=c.length-1;
 
-        for (int i = 0; i < length / 2; i++) {
-            if (chars[i] != chars[length - 1 - i]) {
+        while (l < r) {
+            if (c[l] != c[r]) {
                 return false;
             }
+            l++;
+            r--;
         }
         return true;
     }
