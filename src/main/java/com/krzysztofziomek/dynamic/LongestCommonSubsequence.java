@@ -4,22 +4,22 @@ package com.krzysztofziomek.dynamic;
  * @author Krzysztof Ziomek
  * @since 08/05/2017.
  */
-public class LCS {
+public class LongestCommonSubsequence {
 
     // recursive
-    public int lcs(char[] x, char[] y, int m, int n) {
+    public int recursiveLCS(char[] x, char[] y, int m, int n) {
         if (m < 0 || n < 0) {
             return 0;
         }
         if (x[m] == y[n]) {
-            return 1 + lcs(x, y, m - 1, n - 1);
+            return 1 + recursiveLCS(x, y, m - 1, n - 1);
         } else {
-            return Math.max(lcs(x, y, m - 1, n), lcs(x, y, m, n - 1));
+            return Math.max(recursiveLCS(x, y, m - 1, n), recursiveLCS(x, y, m, n - 1));
         }
     }
 
     // dynamic programming
-    public int getLongestCommonSubsequence(String X, String Y) {
+    public int dpLCS(String X, String Y) {
         int m = X.length();
         int n = Y.length();
         int[][] dp = new int[n + 1][m + 1];
@@ -39,7 +39,7 @@ public class LCS {
     public static void main(String[] args) {
         String X = "ABCBDAB";
         String Y = "BDCABA";
-        System.out.println(new LCS().getLongestCommonSubsequence(X, Y));
-        System.out.println(new LCS().lcs(X.toCharArray(), Y.toCharArray(), X.length() - 1, Y.length() - 1));
+        System.out.println(new LongestCommonSubsequence().dpLCS(X, Y));
+        System.out.println(new LongestCommonSubsequence().recursiveLCS(X.toCharArray(), Y.toCharArray(), X.length() - 1, Y.length() - 1));
     }
 }
