@@ -1,9 +1,7 @@
 package com.krzysztofziomek.graphs;
 
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author Krzysztof Ziomek
@@ -18,12 +16,9 @@ public class BFS2DArray {
     }
 
     public Integer[] traverse(int[][] grid) {
-        boolean[][] visited = new boolean[grid.length][grid[0].length];
-        int gridRows = grid.length;
-        int gridColumns = grid[0].length;
-
         List<Integer> result = new LinkedList<>();
 
+        boolean[][] visited = new boolean[grid.length][grid[0].length];
         Queue<Pos> queue = new LinkedList<>();
         queue.add(new Pos(0, 0));
         visited[0][0] = true;
